@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { LuShoppingBag } from 'react-icons/lu';
 import { GoPencil } from 'react-icons/go';
 import { MdOutlineAddShoppingCart } from 'react-icons/md';
-import { login, logout, onUserStateChange } from '../api/firebase';
 import User from './User';
+import Button from './ui/Button';
+import { useAuthContext } from './context/AuthContext';
 
 export default function Header() {
-  const [user, setUser] = useState();
-
-  useEffect(() => {
-    onUserStateChange(setUser);
-  }, []);
+  const { user, login, logout } = useAuthContext();
 
   return (
     <header className="flex justify-between border-b boder-gray-3000 p-4">
@@ -21,15 +17,17 @@ export default function Header() {
       </Link>
       <nav className="flex items-center gap-4  font-semibold">
         <Link to={'/products'}>Products</Link>
-        <Link to={'/carts'}>
+        <Link to={user ? '/carts' : '/'} onClick={!user && login}>
           <MdOutlineAddShoppingCart className="text-2xl" />
         </Link>
-        <Link to={'/products/new'} className="text-2xl text-brand">
-          <GoPencil />
-        </Link>
+        {user && user.isAdmin && (
+          <Link to={'/products/new'} className="text-2xl text-brand">
+            <GoPencil />
+          </Link>
+        )}
         {user && <User user={user} />}
-        {!user && <button onClick={login}>Login</button>}
-        {user && <button onClick={logout}>Logout</button>}
+        {!user && <Button text={'Login'} onClick={login} />}
+        {user && <Button text={'Logout'} onClick={logout} />}
       </nav>
     </header>
   );
