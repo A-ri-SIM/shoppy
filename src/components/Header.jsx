@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { LuShoppingBag } from 'react-icons/lu';
 import { GoPencil } from 'react-icons/go';
-import { MdOutlineAddShoppingCart } from 'react-icons/md';
 import User from './User';
 import Button from './ui/Button';
-import { useAuthContext } from './context/AuthContext';
+import { useAuthContext } from '../context/AuthContext';
+import CartStatus from './CartStatus';
 
 export default function Header() {
   const { user, login, logout } = useAuthContext();
@@ -18,7 +18,7 @@ export default function Header() {
       <nav className="flex items-center gap-4  font-semibold">
         <Link to={'/products'}>Products</Link>
         <Link to={user ? '/carts' : '/'} onClick={!user && login}>
-          <MdOutlineAddShoppingCart className="text-2xl" />
+          <CartStatus/>
         </Link>
         {user && user.isAdmin && (
           <Link to={'/products/new'} className="text-2xl text-brand">

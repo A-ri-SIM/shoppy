@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Price from '../components/ui/Price';
 import Button from '../components/ui/Button';
+import { useAuthContext } from '../context/AuthContext';
+import { addUpdateToCart } from '../api/firebase';
 
 export default function ProductDetail() {
+  const { uid } = useAuthContext();
   const {
     state: {
       product: { id, image, title, decription, category, price, options },
@@ -16,7 +19,10 @@ export default function ProductDetail() {
     setSelected(e.target.value);
   };
 
-  const handleClick = (e) => {};
+  const handleClick = (e) => {
+    const product={id,image,title,price,option:selected,quantity:1}
+    addUpdateToCart(uid,product)
+  };
 
   return (
     <>
