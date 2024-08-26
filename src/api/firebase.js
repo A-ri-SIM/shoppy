@@ -80,9 +80,10 @@ export async function getCart(userId) {
 }
 
 export async function addUpdateToCart(userId, product) {
-  return set(ref(database, `carts/${userId}/${product.id}`), product);
+  const seleted = `${product.id}${product.option}`;
+  return set(ref(database, `carts/${userId}/${seleted}`), product);
 }
 
 export async function removeFromCart(userId, productId) {
-  return remove(ref(`carts/${userId}/${productId}`));
+  return remove(ref(database, `carts/${userId}/${productId}`));
 }

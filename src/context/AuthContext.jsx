@@ -8,12 +8,13 @@ export function AuthContextProvider({ children }) {
 
   useEffect(() => {
     onUserStateChange((user) => {
-      console.log(user);
       setUser(user);
     });
   }, []);
   return (
-    <AuthContext.Provider value={{ user,uid:user && user.uid, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, uid: user && user.uid, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

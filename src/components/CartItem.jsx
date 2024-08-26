@@ -1,8 +1,8 @@
 import React from 'react';
 import { FiMinusCircle, FiPlusCircle } from 'react-icons/fi';
 import { FaRegTrashCan } from 'react-icons/fa6';
-import { addUpdateToCart, removeFromCart } from '../api/firebase';
 import Price from './ui/Price';
+import useCart from '../hooks/useCart';
 
 const ICON_CLASS =
   'transition-all cursor-pointer hover:text-brand hover:scale-105 mx-3';
@@ -10,17 +10,17 @@ const ICON_CLASS =
 export default function CartItem({
   product,
   product: { id, image, title, option, quantity, price },
-  uid,
 }) {
+  const { addUpdateItem, removeItem } = useCart();
   const handleMinus = () => {
     if (quantity < 2) return;
-    addUpdateToCart(uid, { ...product, quantity: quantity - 1 });
+    addUpdateItem.mutate({ ...product, quantity: quantity - 1 });
   };
   const handlePlus = () => {
-    addUpdateToCart(uid, { ...product, quantity: quantity + 1 });
+    addUpdateItem.mutate({ ...product, quantity: quantity + 1 });
   };
   const handleDelete = () => {
-    removeFromCart(uid, id);
+    removeItem.mutate(id);
   };
 
   return (

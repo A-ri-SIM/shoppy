@@ -1,16 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { MdOutlineAddShoppingCart } from 'react-icons/md';
-import { getCart } from '../api/firebase';
-import { useAuthContext } from '../context/AuthContext';
+import useCart from '../hooks/useCart';
 
 export default function CartStatus() {
-  const { uid } = useAuthContext();
+  const {
+    cartQuery: { data: products },
+  } = useCart();
 
-  const { data: products } = useQuery({
-    queryKey: ['carts'],
-    queryFn: () => getCart(uid),
-  });
   return (
     <div className="relative">
       <MdOutlineAddShoppingCart className="text-2xl" />

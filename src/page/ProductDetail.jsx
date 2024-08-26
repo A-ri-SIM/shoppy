@@ -2,17 +2,16 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Price from '../components/ui/Price';
 import Button from '../components/ui/Button';
-import { useAuthContext } from '../context/AuthContext';
-import { addUpdateToCart } from '../api/firebase';
+import useCart from '../hooks/useCart';
 
 export default function ProductDetail() {
-  const { uid } = useAuthContext();
+  const { addUpdateItem } = useCart();
   const {
     state: {
       product: { id, image, title, decription, category, price, options },
     },
   } = useLocation();
-
+  const [success, setSuccess] = useState();
   const [selected, setSelected] = useState(options && options[0]);
 
   const handleSelected = (e) => {
@@ -20,8 +19,13 @@ export default function ProductDetail() {
   };
 
   const handleClick = (e) => {
-    const product={id,image,title,price,option:selected,quantity:1}
-    addUpdateToCart(uid,product)
+    const product = { id, image, title, price, option: selected, quantity: 1 };
+    addUpdateItem.mutate(product, {
+      onSuccess: () => {
+        setSuccess('장바구니에 추가되었습니다!');
+        setTimeout(() => setSuccess(null), 3000);
+      },
+    });
   };
 
   return (
@@ -56,6 +60,7 @@ export default function ProductDetail() {
             </select>
           </div>
           <Button text="장바구니에 추가하기" onClick={handleClick} />
+          {success && <p className="my-2 text-center">{success}</p>}
         </div>
       </section>
     </>
