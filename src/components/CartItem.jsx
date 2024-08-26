@@ -20,7 +20,7 @@ export default function CartItem({
     addUpdateItem.mutate({ ...product, quantity: quantity + 1 });
   };
   const handleDelete = () => {
-    removeItem.mutate(id);
+    removeItem.mutate(product);
   };
 
   return (

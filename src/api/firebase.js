@@ -84,6 +84,7 @@ export async function addUpdateToCart(userId, product) {
   return set(ref(database, `carts/${userId}/${seleted}`), product);
 }
 
-export async function removeFromCart(userId, productId) {
-  return remove(ref(database, `carts/${userId}/${productId}`));
+export async function removeFromCart(userId, product) {
+  const seleted = `${product.id}${product.option}`;
+  return remove(ref(database, `carts/${userId}/${seleted}`));
 }

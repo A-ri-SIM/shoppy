@@ -5,6 +5,7 @@ import { BsFillPlusCircleFill } from 'react-icons/bs';
 import { FaEquals } from 'react-icons/fa';
 import Button from '../components/ui/Button';
 import useCart from '../hooks/useCart';
+import { BsCartX } from 'react-icons/bs';
 
 const SHIPPING = 3000;
 
@@ -28,7 +29,11 @@ export default function MyCart() {
       <p className="text-2xl text-center font-bold pb-4 border-b border-gray-300">
         내 장바구니{' '}
       </p>
-      {!hasProducts && <p>텅!</p>}
+      {!hasProducts && (
+        <div className="text-7xl m-auto py-10">
+          <BsCartX />
+        </div>
+      )}
       {hasProducts && (
         <>
           <ul className="py-4 px-8 border-b border-gray-300 my-8">
